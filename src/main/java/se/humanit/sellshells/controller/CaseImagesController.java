@@ -41,15 +41,8 @@ public class CaseImagesController {
     @Transactional(readOnly = true)
     public ResponseEntity<List<ResponseFile>> getListFiles(@RequestBody GetFileRequest getFileRequest) {
         List<ResponseFile> files = caseImagesService.getFile(getFileRequest.getTypeId(), getFileRequest.getTypeName()).map(dbFile -> {
-            String fileDownloadUri = ServletUriComponentsBuilder
-                    .fromCurrentContextPath()
-                    .path("/files/")
-                    .path(dbFile.getId().toString())
-                    .toUriString();
-
             return new ResponseFile(
                     dbFile.getName(),
-                    fileDownloadUri,
                     dbFile.getType(),
                     dbFile.getData().length,
                     dbFile.getData());
